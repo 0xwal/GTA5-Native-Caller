@@ -77,6 +77,7 @@
             this.dtTimePicker = new System.Windows.Forms.DateTimePicker();
             this.chkPauseTime = new System.Windows.Forms.CheckBox();
             this.btnSetTime = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numSpeed)).BeginInit();
@@ -1610,11 +1611,21 @@
             this.btnSetTime.UseVisualStyleBackColor = true;
             this.btnSetTime.Click += new System.EventHandler(this.btnSetTime_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(666, 504);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(63, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "By BISOON";
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(737, 510);
+            this.ClientSize = new System.Drawing.Size(737, 517);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
@@ -1642,6 +1653,7 @@
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1696,6 +1708,7 @@
         private System.Windows.Forms.Button btnSetWeather;
         private System.Windows.Forms.ComboBox cmbWeathers;
         private volatile System.Windows.Forms.CheckBox chkSwapAimedPed;
+        private System.Windows.Forms.Label label5;
     }
 }
 
