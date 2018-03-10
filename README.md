@@ -4,7 +4,9 @@ GTA 5 Library for PS4 to create desktop tools.
 This library allows you to call over 2000 native functions
 that can be found here [Nativedb](http://www.dev-c.com/nativedb/)
 
-<img align="center" src="https://gyazo.com/7a465b8a9a6a82f1b276e97526f33953.png" />
+<p align="center">
+<img alt=".." src="https://gyazo.com/7a465b8a9a6a82f1b276e97526f33953.png"/>
+</p>
 
 # How to use
 * Inject the **[PS4API.BIN](https://github.com/BISOON/ps4-api-server)** whether 4.05 or 4.55
