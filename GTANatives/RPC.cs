@@ -21,8 +21,10 @@ public class RPC
     {
         PS4.SetMemory(_freeSpace, new byte[0xFF]);
     }
-    public static void Enable(PS4API ps4)
+    public static void Enable(PS4API ps4, ulong? nativeTableAddress = null)
     {
+        if (nativeTableAddress != null)
+            Address.NativeTable = nativeTableAddress.Value;
         PS4 = ps4;
         _DestroyAll();
         byte[] freeSpace = BitConverter.GetBytes(_freeSpace);
