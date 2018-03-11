@@ -143,11 +143,18 @@ public class RPC
             }
             PS4.Extension.WriteUInt64(pFunction, address);
             Type retType = typeof(T);
+            DateTime timeOut = DateTime.Now.AddSeconds(5);
+            bool functionError;
+            while ((functionError = (PS4.Extension.ReadUInt64(pFunction) != 0)) && DateTime.Now < timeOut){}
+            if (functionError)
+            {
+                PS4.Extension.WriteUInt64(pFunction, 0);
+                return default(T);
+            }
             if (retType == typeof(Void))
             {
                 return default(T);
             }
-            Thread.Sleep(50);
             object retValue = null;
             if (retType.IsPrimitive)
             {
@@ -163,8 +170,8 @@ public class RPC
                 Vector3 vec;
                 byte[] vec3 = PS4.GetBytes(pReturn, 8 * 3);
                 vec.X = BitConverter.ToSingle(vec3, 0);
-                vec.Y = BitConverter.ToSingle(vec3, 8); ;
-                vec.Z = BitConverter.ToSingle(vec3, 16); ;
+                vec.Y = BitConverter.ToSingle(vec3, 8);
+                vec.Z = BitConverter.ToSingle(vec3, 16);
                 retValue = vec;
             }
             return (T)retValue;
