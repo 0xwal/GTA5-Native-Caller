@@ -152,7 +152,7 @@ public class RPC
             if (retType.IsPrimitive)
             {
                 retValue = PS4.GetBytes(pReturn, 8);
-                retValue = ToPrimitive<T>((byte[])retValue, typeof(T).Name);
+                retValue = ToPrimitive<T>((byte[])retValue, retType.Name);
             }
             else if (retType == typeof(string))
             {
