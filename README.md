@@ -5,7 +5,8 @@ This library allows you to call over 2000 native functions
 that can be found here [Nativedb](http://www.dev-c.com/nativedb/)
 
 <p align="center">
-<img alt=".." src="https://github.com/peaches6/GTA5-Native-Caller/blob/master/media/demo.png?raw=true"/>
+<img alt=".." src="https://x0.at/vq-.png"/>
+
 </p>
 
 # How to use
