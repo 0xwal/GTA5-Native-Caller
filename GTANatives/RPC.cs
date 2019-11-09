@@ -56,21 +56,20 @@ public class RPC
             });
     }
    
-    public static uint NativeAddress(UInt64 nativeHash)
+    public static uint NativeAddress(ulong nativeHash)
     {
         ulong nativeTable;
         uint index;
-        UInt64 nativeAddress;
+        ulong nativeAddress;
         nativeTable = Address.NativeTable;
         index = (uint)nativeHash & 0xFF;
-        byte[] test = PS4.GetBytes(nativeTable + (index * 8), 8);
         nativeAddress = PS4.Extension.ReadUInt64(nativeTable + (index * 8));
         while (nativeAddress != 0)
         {
             uint count = PS4.Extension.ReadUInt32(nativeAddress + 0x40);
             for (uint i = 0; i < count; i++)
             {
-                UInt64 hash = PS4.Extension.ReadUInt64(nativeAddress + 0x48 + (i * 8));
+                ulong hash = PS4.Extension.ReadUInt64(nativeAddress + 0x48 + (i * 8));
                 if (hash == nativeHash)
                 {
                     return PS4.Extension.ReadUInt32(nativeAddress + 0x8 + (i * 8));
@@ -93,7 +92,6 @@ public class RPC
     }
     private static T ToPrimitive<T>(byte[] input, string dataTypeName)
     {
-        Type type = input.GetType();
         string methodName = "To" + dataTypeName;
         T retValue = (T)typeof(BitConverter)
                 .GetMethod(methodName)
@@ -120,32 +118,12 @@ public class RPC
             ulong pString = freeSpace + 0xC8;
             ulong offset = 0;
             _DestroyAll();
-            for (int i = 0; i < parametersLength; i++)
-            {
-                var currentParameter = parameters[i];
-                var currentParameterType = currentParameter.GetType();
-                if (currentParameterType != typeof(string) && currentParameterType.BaseType != typeof(ValueType))
-                    throw new Exception("only string/value type (primitive) is allowed");
-                offset = pArgs + (ulong)i * 8;
-                if (currentParameterType.IsPrimitive)
-                {
-                    PS4.SetMemory(offset, GetBytes(currentParameter));
-                }
-                else if (currentParameterType == typeof(string))
-                {
-                    string currentString = currentParameter.ToString() + "\0";
-                    int currentStringLength = currentString.Length;
-                    byte[] stringAsBytes = Encoding.UTF8.GetBytes(currentString);
-                    PS4.SetMemory(pString, stringAsBytes);
-                    PS4.Extension.WriteUInt64(offset, pString);
-                    pString += (ulong)currentStringLength;
-                }
-            }
+            ApplyParameters(parameters, parametersLength, pArgs, ref pString, ref offset);
             PS4.Extension.WriteUInt64(pFunction, address);
             Type retType = typeof(T);
             DateTime timeOut = DateTime.Now.AddSeconds(5);
             bool functionError;
-            while ((functionError = (PS4.Extension.ReadUInt64(pFunction) != 0)) && DateTime.Now < timeOut){}
+            while ((functionError = (PS4.Extension.ReadUInt64(pFunction) != 0)) && DateTime.Now < timeOut) { }
             if (functionError)
             {
                 PS4.Extension.WriteUInt64(pFunction, 0);
@@ -175,6 +153,31 @@ public class RPC
                 retValue = vec;
             }
             return (T)retValue;
+        }
+    }
+
+    private static void ApplyParameters(object[] parameters, int parametersLength, ulong pArgs, ref ulong pString, ref ulong offset)
+    {
+        for (int i = 0; i < parametersLength; i++)
+        {
+            var currentParameter = parameters[i];
+            var currentParameterType = currentParameter.GetType();
+            if (currentParameterType != typeof(string) && currentParameterType.BaseType != typeof(ValueType))
+                throw new Exception("only string/value type (primitive) is allowed");
+            offset = pArgs + (ulong)i * 8;
+            if (currentParameterType.IsPrimitive)
+            {
+                PS4.SetMemory(offset, GetBytes(currentParameter));
+            }
+            else if (currentParameterType == typeof(string))
+            {
+                string currentString = currentParameter.ToString() + "\0";
+                int currentStringLength = currentString.Length;
+                byte[] stringAsBytes = Encoding.UTF8.GetBytes(currentString);
+                PS4.SetMemory(pString, stringAsBytes);
+                PS4.Extension.WriteUInt64(offset, pString);
+                pString += (ulong)currentStringLength;
+            }
         }
     }
 }

@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PS4Lib">
-      <HintPath>..\..\PS4Lib\PS4Lib\bin\Debug\PS4Lib.dll</HintPath>
+      <HintPath>..\..\PS4Lib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

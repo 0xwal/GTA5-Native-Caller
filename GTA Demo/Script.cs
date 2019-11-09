@@ -126,7 +126,7 @@ public class Script
         while (!STREAMING.HAS_MODEL_LOADED(modelHash))
         {
             timeOut++;
-            if (timeOut == 5000)
+            if (timeOut == 5)
                 break;
         }
         PLAYER.SET_PLAYER_MODEL(player, modelHash);
@@ -205,7 +205,7 @@ public class Script
             VEHICLE.SET_VEHICLE_MOD(VehID, (int)8, -1, true);
             VEHICLE.SET_VEHICLE_MOD(VehID, (int)9, -1, true);
             VEHICLE.SET_VEHICLE_MOD(VehID, (int)10, -1, true);
-            VEHICLE.SET_VEHICLE_MOD(VehID, (int)24, (int)-1, true);
+            VEHICLE.SET_VEHICLE_MOD(VehID, 24, -1, true);
         }
 
     }
@@ -299,9 +299,8 @@ public class Script
             return;
         GAMEPLAY.GET_GROUND_Z_FOR_3D_COORD(wp.X, wp.Y, 5000.0f, RPC.FreePointer, true);
         float z = PS4.Extension.ReadFloat(RPC.FreePointer);
-        int veh = 0;
         int ped = PLAYER.PLAYER_PED_ID();
-        veh = PED.GET_VEHICLE_PED_IS_IN(ped, false);
+        int veh = PED.GET_VEHICLE_PED_IS_IN(ped, false);
         ENTITY.SET_ENTITY_COORDS(veh == 0 ? ped : veh, wp.X, wp.Y, z, true, true, true, true);
     }
     public static void InfiniteAmmo(bool toggle)

@@ -1,4 +1,6 @@
-﻿public struct Vector3
+﻿using PS4Lib;
+
+public struct Vector3
 {
     public float X, Y, Z;
 }
