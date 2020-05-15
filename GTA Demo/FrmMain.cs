@@ -24,10 +24,10 @@ namespace GTA_Demo
             set
             {
                 var gBs = Controls.OfType<GroupBox>();
-                foreach (GroupBox groupBox in gBs)
+                foreach (var groupBox in gBs)
                 {
                     if (!groupBox.Name.Contains("x1"))
-                    groupBox.Enabled = value;
+                        groupBox.Enabled = value;
                 }
             }
         }
